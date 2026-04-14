@@ -1,5 +1,5 @@
-import styled from "styled-components"
-import Logo from "./Logo"
+import styled from 'styled-components';
+import Logo from './Logo';
 import MainNav from './MainNav';
 
 const StyledSidebar = styled.aside`
@@ -14,12 +14,13 @@ const StyledSidebar = styled.aside`
 `;
 
 function Sidebar() {
+
   return (
     <StyledSidebar>
       <Logo />
       <MainNav />
     </StyledSidebar>
-  )
+  );
 }
 
-export default Sidebar
+export default Sidebar;
