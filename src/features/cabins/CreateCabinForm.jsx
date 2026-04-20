@@ -3,13 +3,12 @@ import Input from '../../ui/Input';
 import Button from '../../ui/Button';
 import FormRow from '../../ui/FormRow';
 import Textarea from '../../ui/Textarea';
-import FileInput from '../../ui/FileInput';
-
 import { useForm } from 'react-hook-form';
-import { useCreateCabin } from './useCreateCabin';
+import FileInput from '../../ui/FileInput';
 import { useEditCabin } from './useEditCabin';
+import { useCreateCabin } from './useCreateCabin';
 
-function CreateCabinForm({ cabinToEdit = {} }) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
 
@@ -39,7 +38,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         {
           newCabin: { ...data, image },
         },
-        { onSuccess: () => reset() }
+        { onSuccess: () => (reset(), onCloseModal?.()) }
       );
     }
   }
@@ -49,7 +48,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
   // }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} type={onCloseModal ? 'modal' : 'regular'}>
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -132,7 +131,12 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       </FormRow>
 
       <FormRow>
-        <Button type="reset" $variation="secondary" $size="large">
+        <Button
+          onClick={() => onCloseModal?.()}
+          type="reset"
+          $variation="secondary"
+          $size="large"
+        >
           Cancel
         </Button>
         <Button disabled={isWorking}>
